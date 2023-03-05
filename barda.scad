@@ -38,8 +38,6 @@ module barda(largo = 3000, ancho = 120, alto = 2500, mezcla = 20) {
             }
         }
         
-        echo(((block_alto+mezcla)*_blocks_z)-alto);
-        
         translate([largo, -1, -1])
         cube([((block_largo+mezcla)*_blocks_x)-largo, ancho+2, ((block_alto+mezcla)*_blocks_z)+2]);
         

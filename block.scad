@@ -14,7 +14,7 @@ module block(largo = 400, ancho = 120, alto = 200, corte_x = 0, corte_y = 0, cor
         // relieves laterales
         _relieves_x = [_relieve_z+1, ancho-(_relieve_y*2), alto+2];
         translate([-1, _relieve_y, -1])
-        cube(_relieves_x);        
+        cube(_relieves_x);
         translate([largo-_relieve_z, _relieve_y, -1])
         cube(_relieves_x);
         
