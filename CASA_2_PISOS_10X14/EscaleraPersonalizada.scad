@@ -30,17 +30,17 @@ tb_co=altoProteccionInclinada*sin(90+anguloInclinacion);
 tb_ca=altoProteccionInclinada*cos(90+anguloInclinacion);
 tt_co=-tb_ca/tan(90-anguloInclinacion);
 corteEjeX=tb_co+tt_co;
-//echo("\n\t", "pendiente:", pendiente,
-//"\n\t", "anguloInclinacion:", anguloInclinacion,
-//"\n\t", "altoProteccionInclinada:", altoProteccionInclinada,
-//"\n\t", "tb_co:", tb_co,
-//"\n\t", "tb_ca:", tb_ca,
-//"\n\t", "tt_co:", tt_co,
-//"\n\t", "corteEjeX:", corteEjeX,
-//"\n\t", "corteEjeX:", (altoProteccionInclinada*sin(90+anguloInclinacion))+(
-//    -altoProteccionInclinada*cos(90+anguloInclinacion)
-//    /tan(90-anguloInclinacion))
-//);
+echo("\n\t", "pendiente:", pendiente,
+"\n\t", "anguloInclinacion:", anguloInclinacion,
+"\n\t", "altoProteccionInclinada:", altoProteccionInclinada,
+"\n\t", "tb_co:", tb_co,
+"\n\t", "tb_ca:", tb_ca,
+"\n\t", "tt_co:", tt_co,
+"\n\t", "corteEjeX:", corteEjeX,
+"\n\t", "corteEjeX:", (altoProteccionInclinada*sin(90+anguloInclinacion))+(
+    -altoProteccionInclinada*cos(90+anguloInclinacion)
+    /tan(90-anguloInclinacion))
+);
 
 
 

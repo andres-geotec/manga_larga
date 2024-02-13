@@ -7,6 +7,7 @@ use <BanioPlantaBaja.scad>;
 use <CuartoLavado.scad>;
 use <Cocina.scad>;
 use <Sala.scad>;
+use <EscaleraPersonalizada.scad>;
 
 
 ContornoTerreno();
@@ -40,8 +41,14 @@ translate([1500, 0, 0])
 CuartoLavado(4000, anchoCuartoLavado, color="#fff");
 
 
+translate([900+1500+4000, 900+(270*6)+50+gruesoMuro, 0])
+rotate(a=180)
+EscaleraPersonalizada();
+
+
 translate([1500, anchoCuartoLavado-gruesoMuro, 0])
 Cocina(4000, 4000, color="#fff");
+
 
 translate([1500, anchoCochera+anchoDormitorioPlantaBaja
     +espacioPuertaPrincipal-gruesoMuro, 0])
