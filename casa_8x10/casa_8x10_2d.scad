@@ -8,7 +8,8 @@ muro=120;
 columna=260;
 //altura=2600;
 altura=jblock*11;
-echo(altura);
+trabe=290;
+alturaColumna=altura+trabe;
 centroColumna=(columna-muro)/2;
 
 anchoVentana=1500;
@@ -27,7 +28,7 @@ module columnas(tramos=[]) {
     for(x=[0: len(tramos)-1]) {
         //echo(x, (columna*x)+SumArray(muros, x));
         translate([0, (columna*x)+SumArray(tramos, x), 0])
-        cube([columna, columna, altura]);
+        cube([columna, columna, alturaColumna]);
     }
 }
 
@@ -36,7 +37,7 @@ mx2=[1890,3430,2100,3430];
 my=[2880,1600,2880];
 
 // fila 1 de columnas en x
-cube([columna, columna, altura]);
+cube([columna, columna, alturaColumna]);
 translate([0, columna, 0])
 columnas(mx1);
 
@@ -55,6 +56,10 @@ cube([muro, mx1[2], altura]);
 // muro 1.4 x
 translate([0, (columna*4)+SumArray(mx1,2), 0])
 cube([muro, mx1[3], altura]);
+
+for(x=[0: len(mx1)-1]) {
+    
+}
 
 // muro 1.3 y
 translate([columna, SumArray(mx1,1)+(columna*2)+centroColumna, 0])
@@ -78,7 +83,7 @@ union() difference() {
 translate([columna+SumArray(my,0), 0, 0])
 union() {
     // columnas en x
-    cube([columna, columna, altura]);
+    cube([columna, columna, alturaColumna]);
 
     translate([0, columna, 0])
     columnas(mx1);
@@ -93,7 +98,7 @@ union() {
 translate([(columna*2)+SumArray(my,1), 0, 0])
 union() {
     // columnas en x
-    cube([columna, columna, altura]);
+    cube([columna, columna, alturaColumna]);
     
     translate([0, columna, 0])
     columnas(mx2);
