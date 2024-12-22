@@ -7,9 +7,10 @@ jblock=junta+block;
 muro=120;
 columna=260;
 //altura=2600;
-altura=jblock*11;
+alturaBanio=jblock*10;
+alturaMuro=jblock*11;
 trabe=290;
-alturaColumna=altura+trabe;
+alturaColumna=alturaMuro+trabe;
 centroColumna=(columna-muro)/2;
 
 anchoVentana=1500;
@@ -41,41 +42,40 @@ cube([columna, columna, alturaColumna]);
 translate([0, columna, 0])
 columnas(mx1);
 
-// muro 1.1 x
-translate([0, columna, 0])
-cube([muro, mx1[0], altura]);
-
-// muro 1.2 x
-translate([0, (columna*2)+SumArray(mx1,0), 0])
-cube([muro, mx1[1], altura]);
-
-// muro 1.3 x
-translate([0, (columna*3)+SumArray(mx1,1), 0])
-cube([muro, mx1[2], altura]);
-
-// muro 1.4 x
-translate([0, (columna*4)+SumArray(mx1,2), 0])
-cube([muro, mx1[3], altura]);
-
-for(x=[0: len(mx1)-1]) {
-    
+// barda larga
+for(i=[0: len(mx1)-1]) {
+    translate([0, columna*(i+1)+(i>0?SumArray(mx1,i-1):0), 0])
+    union() {
+        // muro 1.1 - muro 1.4 x
+        cube([muro, mx1[i], alturaMuro]);
+        
+        // trabe 1.1 - trabe 1.4 x
+        translate([0, 0, alturaMuro])
+        cube([muro, mx1[i], trabe]);
+    }
 }
 
 // muro 1.3 y
 translate([columna, SumArray(mx1,1)+(columna*2)+centroColumna, 0])
-cube([my[0], muro, altura]);
+cube([my[0], muro, alturaMuro]);
 
 // muro 1.4 y
 translate([columna, SumArray(mx1,2)+(columna*3)+centroColumna, 0])
-cube([my[0], muro, altura]);
+cube([my[0], muro, alturaMuro]);
 
 // muro 1.5 y (ventana)
 translate([columna, SumArray(mx1,3)+(columna*5)-muro, 0])
 union() difference() {
-    cube([my[0], muro, altura]);
+    cube([my[0], muro, alturaMuro]);
     
     translate([(my[0]-anchoVentana)/2, -1, jblock*6])
     cube([anchoVentana, muro+2, jblock*5]);
+}
+
+// trabes y
+for(i=[0: len(mx1)]) {
+    translate([columna, (columna*i)+(i>0?SumArray(mx1,i-1):0)+(i>0?i==len(mx1)?columna-muro:centroColumna:0), alturaMuro])
+    cube([my[0], muro, trabe]);
 }
 
 
@@ -90,7 +90,19 @@ union() {
         
     // muro 2.2 x
     translate([centroColumna, (columna*2)+SumArray(mx1,0), 0])
-    cube([muro, mx1[1], altura]);
+    cube([muro, mx1[1], alturaMuro]);
+    
+    // trabes x
+    for(i=[0: len(mx1)-1]) {
+        translate([centroColumna, columna*(i+1)+(i>0?SumArray(mx1,i-1):0), alturaMuro])
+        cube([muro, mx1[i], trabe]);
+    }
+    
+    // trabes y
+    for(i=[0: len(mx1)]) {
+        translate([columna, (columna*i)+(i>0?SumArray(mx1,i-1):0)+(i>0?i==len(mx1)?columna-muro:centroColumna:0), alturaMuro])
+        cube([my[1], muro, trabe]);
+    }
 }
 
 
@@ -106,16 +118,22 @@ union() {
     // muro 3.2 x (puerta)
     translate([centroColumna, (columna*2)+SumArray(mx2,0), 0])
     union() difference() {
-        cube([muro, mx2[1], altura]);
+        cube([muro, mx2[1], alturaMuro]);
         
         translate([-1, mx2[1]-900, 0])
-        cube([muro+2, 900, altura]);
+        cube([muro+2, 900, alturaMuro]);
+    }
+    
+    // trabes x
+    for(i=[1: len(mx2)-1]) {
+        translate([centroColumna, columna*(i+1)+(i>0?SumArray(mx2,i-1):0), alturaMuro])
+        cube([muro, mx2[i], trabe]);
     }
     
     // muro 3.2 y (ventana)
     translate([columna, SumArray(mx2,0)+(columna*1), 0])
     union() difference() {
-        cube([my[2], muro, altura]);
+        cube([my[2], muro, alturaMuro]);
         
         translate([(my[2]-anchoVentana)/2, -1, jblock*6])
         cube([anchoVentana, muro+2, jblock*5]);
@@ -123,19 +141,26 @@ union() {
 
     // muro 3.3 y
     translate([columna, SumArray(mx2,1)+(columna*2)+centroColumna, 0])
-    cube([my[2], muro, altura]);
+    cube([my[2], muro, alturaMuro]);
 
     // muro 3.4 y
     translate([columna, SumArray(mx2,2)+(columna*3)+centroColumna, 0])
-    cube([my[2], muro, altura]);
+    cube([my[2], muro, alturaMuro]);
 
     // muro 3.5 y (ventana)
     translate([columna, SumArray(mx2,3)+(columna*5)-muro, 0])
     union() difference() {
-        cube([my[2], muro, altura]);
+        cube([my[2], muro, alturaMuro]);
         
         translate([(my[2]-anchoVentana)/2, -1, jblock*6])
         cube([anchoVentana, muro+2, jblock*5]);
+    }
+    
+    // trabes y
+    translate([columna, 0, alturaMuro])
+    for(i=[1: len(mx2)]) {
+        translate([0, (columna*i)+(i>0?SumArray(mx2,i-1):0)+(i>1?i==len(mx2)?columna-muro:centroColumna:0), 0])
+        cube([my[2], muro, trabe]);
     }
 }
 
@@ -149,7 +174,7 @@ union() {
     // muro 4.2 x (ventana)
     translate([columna-muro, (columna*2)+SumArray(mx2,0), 0])
     union() difference() {
-        cube([muro, mx2[1], altura]);
+        cube([muro, mx2[1], alturaMuro]);
         
         translate([-1, (mx2[1]-anchoVentana)/2, jblock*5])
         cube([muro+2, anchoVentana, jblock*6]);
@@ -158,7 +183,7 @@ union() {
     // muro 4.3 x (ventana baño)
     translate([columna-muro, (columna*3)+SumArray(mx2,1), 0])
     union() difference() {
-        cube([muro, mx2[2], altura]);
+        cube([muro, mx2[2], alturaMuro]);
         
         translate([-1, 0, jblock*9])
         cube([muro+2, mx2[2], jblock*2]);
@@ -167,10 +192,16 @@ union() {
     // muro 4.4 x (ventana)
     translate([columna-muro, (columna*4)+SumArray(mx2,2), 0])
     union() difference() {
-        cube([muro, mx2[3], altura]);
+        cube([muro, mx2[3], alturaMuro]);
         
         translate([-1, (mx2[3]-anchoVentana)/2, jblock*5])
         cube([muro+2, anchoVentana, jblock*6]);
+    }
+    
+    // trabes x
+    for(i=[1: len(mx2)-1]) {
+        translate([columna-muro, columna*(i+1)+(i>0?SumArray(mx2,i-1):0), alturaMuro])
+        cube([muro, mx2[i], trabe]);
     }
 }
 
